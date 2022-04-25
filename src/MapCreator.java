@@ -84,6 +84,9 @@ public class MapCreator {
 		newWindow.setOnHiding(e -> {
 			MapCreatorUpdate.stop();
 			MapCreatorUpdate = null;
+			
+			TP3.mainWindow.show();
+			newWindow.close();
 		});
 		
 		StackPane root = new StackPane();

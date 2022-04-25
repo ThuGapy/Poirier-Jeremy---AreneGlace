@@ -14,6 +14,8 @@ public class ChoixDeNiveau {
 	public static int WindowWidth = 400;
 	public static int WindowHeight = 600;
 	
+	public boolean MainMenuOnClose = true;
+	
 	public ChoixDeNiveau() {
 		CheckMapFiles();
 		CreeMenu();
@@ -22,6 +24,13 @@ public class ChoixDeNiveau {
 	private void CreeMenu() {
 		Stage newWindow = new Stage();
 		newWindow.setTitle("Choix de niveau");
+		
+		newWindow.setOnHiding(e -> {
+			if(MainMenuOnClose) {
+				TP3.mainWindow.show();
+				newWindow.close();
+			}
+		});
 		
 		StackPane root = new StackPane();
 
@@ -41,7 +50,7 @@ public class ChoixDeNiveau {
 		for(File fichier : dossier.listFiles()) {
 			if(TP3.ObtenirExtension(fichier).equals("map") && !fichier.getName().equals("validation.map")) {
 				StackPane MapPane = new StackPane();
-				MapPane.setStyle("-fx-background-color: white; -fx-border-color: black");
+				MapPane.setStyle("-fx-border-color: black");
 				MapPane.setMinSize(WindowWidth - 2, 80);
 				ScrollVBox.getChildren().add(MapPane);
 				
@@ -64,6 +73,7 @@ public class ChoixDeNiveau {
 				StackPane.setAlignment(MapPlayButton, Pos.BOTTOM_CENTER);
 				
 				MapPlayButton.setOnAction(e -> {
+					MainMenuOnClose = false;
 					newWindow.close();
 					new AreneJouer(fichier.getName(), false);
 				});

@@ -1,6 +1,9 @@
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -17,6 +20,8 @@ public class AreneJouer {
 	public static String EndStyle = "-fx-background-color: red;";
 	
 	public Stage newWindow;
+	
+	public StackPane root;
 	
 	public GridPane MapGrid;
 	
@@ -46,12 +51,19 @@ public class AreneJouer {
 		newWindow = new Stage();
 		newWindow.setTitle("Arene de glace");
 		
+		newWindow.setOnHiding(e -> {
+			if(!IsTesting) {
+				newWindow.close();
+				TP3.mainWindow.show();
+			}
+		});
+		
 		newWindow.setMinHeight(WindowHeight);
 		newWindow.setMinWidth(WindowWidth);
 		newWindow.setMaxHeight(WindowHeight * 2);
 		newWindow.setMaxWidth(WindowWidth * 2);
 		
-		StackPane root = new StackPane();
+		root = new StackPane();
 
 		Scene playScene = new Scene(root, WindowWidth, WindowHeight);
 		
@@ -206,7 +218,6 @@ public class AreneJouer {
 				}
 			}
 		}
-		
 		return null;
 	}
 	
@@ -233,7 +244,54 @@ public class AreneJouer {
 			}
 		}
 		
+		ShowVictoryScreen();
 		return true;
+	}
+	
+	private void ShowVictoryScreen() {
+		StackPane VictoryPane = new StackPane();
+		VictoryPane.setMinSize(WindowWidth, WindowHeight / 5);
+		VictoryPane.setMaxSize(WindowWidth * 2, (WindowHeight * 2) / 5);
+		VictoryPane.setStyle("-fx-background-color: white; -fx-border-color: black");
+		
+		root.getChildren().add(VictoryPane);
+		
+		Label VictoryLabel = new Label("VICTOIRE !");
+		VictoryLabel.setStyle("-fx-font: 32 arial;");
+		
+		StackPane.setMargin(VictoryLabel, new Insets(0, 0, 90, 0));
+		StackPane.setAlignment(VictoryLabel, Pos.CENTER);
+		
+		VictoryPane.getChildren().add(VictoryLabel);
+		
+		StackPane.setAlignment(VictoryPane, Pos.CENTER);
+		
+		Button MainMenuButton = new Button("Menu principal");
+		MainMenuButton.setMinSize(150, 40);
+		
+		StackPane.setMargin(MainMenuButton, new Insets(30, 0, 0, 0));
+		
+		StackPane.setAlignment(MainMenuButton, Pos.CENTER);
+		
+		VictoryPane.getChildren().add(MainMenuButton);
+		
+		MainMenuButton.setOnAction(e -> {
+			newWindow.close();
+			TP3.mainWindow.show();
+		});
+		
+		Button QuitButton = new Button("Quitter");
+		QuitButton.setMinSize(150, 40);
+		
+		StackPane.setMargin(QuitButton, new Insets(140, 0, 0, 0));
+		
+		StackPane.setAlignment(QuitButton, Pos.CENTER);
+		
+		VictoryPane.getChildren().add(QuitButton);
+		
+		QuitButton.setOnAction(e -> {
+			System.exit(0);
+		});
 	}
 	
 	private void CheckValidation() {

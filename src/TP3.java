@@ -13,8 +13,12 @@ public class TP3 extends Application {
 	public static int WindowWidth = 400;
 	public static int WindowHeight = 300;
 	
+	public static Stage mainWindow;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		mainWindow = primaryStage;
+		
 		primaryStage.setTitle("TP3 - Arène de glace");
 		primaryStage.setMinHeight(WindowHeight);
 		primaryStage.setMinWidth(WindowWidth);
@@ -34,6 +38,7 @@ public class TP3 extends Application {
 		boutonJouer.setText("Jouer");
 		
 		boutonJouer.setOnAction(e -> {
+			mainWindow.hide();
 			new ChoixDeNiveau();
 		});
 		
@@ -43,6 +48,7 @@ public class TP3 extends Application {
 		boutonCree.setText("Créer une carte");
 		
 		boutonCree.setOnAction(e -> {
+			mainWindow.hide();
 			new MapCreator();
 		});
 		
